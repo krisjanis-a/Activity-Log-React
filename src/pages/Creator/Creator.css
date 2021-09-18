@@ -1,0 +1,64 @@
+.timer_control_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.timer_control_buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.duration_entry_container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.duration_checkbox_container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.activity_duration {
+  text-align: center;
+}
+
+.react-datepicker__close-icon {
+  position: relative;
+  margin-left: 0.5rem;
+}
+
+.name_container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.buttons_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.create_delete_group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.choose-group_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.commentary_display {
+  resize: none;
+}

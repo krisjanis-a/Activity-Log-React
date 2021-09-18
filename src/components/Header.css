@@ -1,0 +1,13 @@
+.header_content {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main_header_line {
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(90deg, #ffff 0%, rgba(255, 255, 255, 0.219) 100%);
+}

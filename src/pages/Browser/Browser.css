@@ -1,0 +1,43 @@
+.control_module {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.filter_group_dropdown {
+  display: flex;
+  flex-direction: row;
+}
+
+.choose-date_container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.chosen_group {
+  width: 100%;
+  background-color: white;
+  color: #333;
+  display: flex;
+  align-items: center;
+  padding-left: 0.5rem;
+}
+
+.react-datepicker__close-icon {
+  position: relative;
+}
+
+.table_body {
+  height: 12rem;
+}
+
+.table_row {
+  height: 2rem;
+}
+
+.ativity_view_delete_buttons {
+  display: flex;
+  justify-content: center;
+}
