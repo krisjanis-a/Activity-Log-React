@@ -7,6 +7,7 @@ import Viewer from "./pages/Viewer/Viewer";
 import Creator from "./pages/Creator/Creator";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
+import Groups from "./pages/Groups/Groups";
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
           </Route>
           <Route path="/creator">
             <Creator />
+          </Route>
+          <Route path="/groups">
+            <Groups />
           </Route>
           <Route path="/viewer">
             <Viewer />

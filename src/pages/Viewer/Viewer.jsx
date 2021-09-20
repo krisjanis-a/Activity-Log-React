@@ -11,15 +11,15 @@ const Viewer = () => {
 
       <div className="info_row my-1">
         <span id="activity_name_label">Activity name:</span>
-        <span class="data_field ms-1" id="activity_name"></span>
+        <span className="data_field ms-1" id="activity_name"></span>
       </div>
       <div className="info_row my-1">
         <span id="group_label">Group:</span>
-        <span class="data_field ms-1" id="group"></span>
+        <span className="data_field ms-1" id="group"></span>
       </div>
       <div className="info_row my-1">
         <span id="date_label">Date:</span>
-        <span class="data_field ms-1" id="date"></span>
+        <span className="data_field ms-1" id="date"></span>
       </div>
       <div className="info_row my-1">
         <span id="duration_label">Duration:</span>
@@ -31,7 +31,7 @@ const Viewer = () => {
       <textarea
         className="commentary_display w-100"
         id="commentary_text"
-        readonly="true"
+        readOnly={true}
         placeholder="No comments to display ..."
       ></textarea>
     </div>

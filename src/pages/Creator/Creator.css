@@ -45,7 +45,7 @@
   align-items: center;
 }
 
-.create_delete_group {
+.create_group {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;

@@ -1,36 +1,64 @@
-import React from "react";
 import Header from "../../components/Header";
 import Button from "react-bootstrap/Button";
 import "./Login.css";
+import axios from "axios";
+import { useContext, useRef } from "react";
+import { Context } from "../../context/Context";
 
 const Login = () => {
   const pageTitle = "Login";
 
+  const userRef = useRef();
+  const passwordRef = useRef();
+  const { dispatch, isFetching } = useContext(Context);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    dispatch({ type: "LOGIN_START" });
+    try {
+      const res = await axios.post("/Authentication/login", {
+        username: userRef.current.value,
+        password: passwordRef.current.value,
+      });
+      dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
+      res.data && window.location.replace("/");
+    } catch (err) {
+      dispatch({ type: "LOGIN_FAILURE" });
+    }
+  };
+
   return (
     <div className="register">
       <Header pageTitle={pageTitle} />
-      <form className="login_form">
+      <form className="login_form" onSubmit={handleSubmit}>
         <div className="form-group w-100">
-          <label for="username">Username</label>
+          <label htmlFor="username">Username</label>
           <input
             type="text"
-            class="form-control"
+            className="form-control"
             id="username"
             placeholder="Username"
+            ref={userRef}
             required
           />
         </div>
         <div className="form-group w-100">
-          <label for="password">Password</label>
+          <label htmlFor="password">Password</label>
           <input
             type="password"
-            class="form-control"
+            className="form-control"
             id="password"
             placeholder="Password"
+            ref={passwordRef}
             required
           />
         </div>
-        <Button type="submit" variant="primary" className="mt-2">
+        <Button
+          type="submit"
+          variant="primary"
+          className="mt-2"
+          disabled={isFetching}
+        >
           Login
         </Button>
       </form>
