@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Button from "react-bootstrap/Button";
 import "./Creator.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Dropdown from "react-bootstrap/Dropdown";
+import { Context } from "../../context/Context";
+import axios from "axios";
+import Modal from "react-bootstrap/Modal";
 
 const Creator = () => {
   const pageTitle = "Creator";
+  const { user } = useContext(Context);
   const [startDate, setStartDate] = useState(new Date());
   const [activityDurationAutomatic, setActivityDurationAutomatic] = useState(0);
   const [activityDurationString, setActivityDurationString] =
@@ -17,9 +21,22 @@ const Creator = () => {
   const [activityName, setActivityName] = useState("");
   const [activityDurationManual, setActivityDurationManual] = useState("");
   const [useManualDuration, setUseManualDuration] = useState();
-  const [date, setDate] = useState();
   const [commentary, setCommentary] = useState("");
   const [group, setGroup] = useState("");
+  const [errorMessage, setErrorMessage] = useState();
+
+  const [savedGroups, setSavedGroups] = useState([]);
+
+  // Fetch groups
+
+  useEffect(() => {
+    const getGroups = async () => {
+      const res = await axios.get("/groups");
+      const userGroups = res.data.filter((item) => item.userId === user._id);
+      setSavedGroups(userGroups);
+    };
+    getGroups();
+  }, [group, user._id]);
 
   // Timer logic
 
@@ -68,7 +85,76 @@ const Creator = () => {
     return timeStr;
   };
 
+  // Create group modal window
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
+
+  // Save new group
+
+  const saveGroup = async () => {
+    const existingGroups = savedGroups.map((group) => group.name);
+    const newGroupName = document.querySelector("#new_group").value;
+
+    if (!existingGroups.includes(newGroupName)) {
+      try {
+        let newGroup = { name: newGroupName, userId: user._id };
+        await axios.post("/Groups", newGroup);
+      } catch (err) {}
+    } else {
+      setErrorMessage("Group already exists");
+    }
+    handleClose();
+    setGroup(newGroupName);
+  };
+
   // Save activity
+
+  const saveActivity = async () => {
+    setErrorMessage("");
+
+    let duration;
+
+    useManualDuration
+      ? (duration = activityDurationManual)
+      : (duration = formatTime(activityDurationAutomatic));
+
+    if (
+      startDate !== null &&
+      activityName !== "" &&
+      /[0-9][0-9]:[0-9][0-9]:[0-9][0-9]/.test(duration)
+    ) {
+      const activity = {
+        username: user.username,
+        userId: user._id,
+        name: activityName,
+        date: startDate.toDateString(),
+        duration: duration,
+        commentary: commentary,
+        group: group,
+      };
+      console.log(activity);
+
+      try {
+        const res = await axios.post("/activities", activity);
+        window.location.replace("/");
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      if (startDate === null) {
+        setErrorMessage("Please enter date");
+      }
+      if (activityName === "") {
+        setErrorMessage("Please enter activity name");
+      }
+      if (/[0-9][0-9]:[0-9][0-9]:[0-9][0-9]/.test(duration) === false) {
+        setErrorMessage("Manual duration must be in format HH:MM:SS");
+      }
+    }
+  };
 
   return (
     <div>
@@ -196,30 +282,65 @@ const Creator = () => {
         <div className="choose-group_container">
           <span className="choose-group_label">Choose group:</span>
           <Dropdown className="filter_group_dropdown w-100">
-            <span className="chosen_group">none</span>
+            <span className="chosen_group">{group ? group : "none"}</span>
             <Dropdown.Toggle
               variant="primary"
               id="dropdown-basic"
             ></Dropdown.Toggle>
 
             <Dropdown.Menu align="end">
-              <Dropdown.Item>none</Dropdown.Item>
-              <Dropdown.Item>Group 1</Dropdown.Item>
-              <Dropdown.Item>Group 2</Dropdown.Item>
-              <Dropdown.Item>Group 3</Dropdown.Item>
+              <Dropdown.Item onClick={() => setGroup("")}>none</Dropdown.Item>
+              {savedGroups.map((item) => (
+                <Dropdown.Item
+                  key={item.name}
+                  onClick={() => setGroup(item.name)}
+                >
+                  {item.name}
+                </Dropdown.Item>
+              ))}
             </Dropdown.Menu>
           </Dropdown>
         </div>
       </div>
       <div className="buttons_container">
         <div className="create_group my-3">
-          <Button variant="primary" className="me-2">
+          <Button variant="primary" className="me-2" onClick={handleShow}>
             Create group
           </Button>
+          <Modal
+            show={showModal}
+            onHide={handleClose}
+            backdrop="static"
+            keyboard={false}
+          >
+            <Modal.Header closeButton>
+              <Modal.Title className="text-body">Enter Group Name</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <input
+                type="text"
+                id="new_group"
+                placeholder="Group Name"
+                className="w-100"
+                maxLength="20"
+              />
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="primary" onClick={saveGroup}>
+                Save
+              </Button>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </div>
-        <Button variant="success" className="w-50">
+        <Button variant="success" className="w-50" onClick={saveActivity}>
           Save activity
         </Button>
+        <span className="mt-2 " style={{ color: "red" }}>
+          {errorMessage}
+        </span>
       </div>
     </div>
   );
