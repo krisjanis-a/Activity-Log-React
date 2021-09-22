@@ -187,7 +187,7 @@ const Viewer = () => {
         <div className="my-3">
           <span className="fw-bold">Group:</span>
           <span className="data_field ms-2" id="group">
-            {group}
+            {group ? group : "none"}
           </span>
         </div>
       )}

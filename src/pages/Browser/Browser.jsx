@@ -164,7 +164,9 @@ const Browser = () => {
                 >
                   <td key={activity.name}>{activity.name}</td>
                   <td key={activity.date}>{activity.date}</td>
-                  <td key={activity.group}>{activity.group}</td>
+                  <td key={activity.group}>
+                    {activity.group ? activity.group : "none"}
+                  </td>
                 </tr>
               );
             })
