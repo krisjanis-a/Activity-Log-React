@@ -13,6 +13,8 @@ const Groups = () => {
   const [group, setGroup] = useState("");
   const [savedGroups, setSavedGroups] = useState([]);
   const [errorMessage, setErrorMessage] = useState();
+  const [newGroupName, setNewGroupName] = useState("");
+  const [activities, setActivities] = useState([]);
 
   useEffect(() => {
     setErrorMessage();
@@ -22,14 +24,13 @@ const Groups = () => {
 
   useEffect(() => {
     const getGroups = async () => {
-      const res = await axios.get("/groups");
-      const userGroups = res.data.filter((item) => item.userId === user._id);
-      setSavedGroups(userGroups);
+      const res = await axios.get(`/groups/${user._id}`);
+      setSavedGroups(res.data);
     };
     getGroups();
   }, [group, user._id]);
 
-  // Create group modal window
+  // Create & Delete group modal window
 
   const [showModal, setShowModal] = useState(false);
 
@@ -50,7 +51,7 @@ const Groups = () => {
     if (!existingGroups.includes(newGroupName)) {
       try {
         let newGroup = { name: newGroupName, userId: user._id };
-        await axios.post("/Groups", newGroup);
+        await axios.post("/groups", newGroup);
       } catch (err) {}
     } else {
       setErrorMessage("Group already exists");
@@ -62,8 +63,40 @@ const Groups = () => {
   // Delete group
 
   const deleteGroup = async () => {
-    console.log("deleting group");
+    const res = await axios.get(`/groups/${user._id}`);
+    let delGroup = res.data.filter((item) => item.name === group);
+    delGroup = delGroup[0];
+
+    let validated = true;
+
+    activities.forEach((activity) => {
+      if (activity.group === group) {
+        validated = false;
+      }
+    });
+
+    if (validated) {
+      try {
+        await axios.delete(`/groups/${delGroup._id}`, {
+          data: { userId: user._id },
+        });
+      } catch (err) {}
+      setGroup("");
+    } else {
+      setErrorMessage("Existing activities contain this group - cannot delete");
+    }
   };
+
+  // Fetch all activities
+
+  useEffect(() => {
+    const getActivities = async () => {
+      const res = await axios.get(`/activities/${user._id}`);
+      setActivities(res.data);
+      // console.log(res.data);
+    };
+    getActivities();
+  }, [user._id]);
 
   return (
     <div>
@@ -102,7 +135,7 @@ const Groups = () => {
             backdrop="static"
             keyboard={false}
           >
-            <Modal.Header closeButton>
+            <Modal.Header>
               <Modal.Title className="text-body">Enter Group Name</Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -112,13 +145,27 @@ const Groups = () => {
                 placeholder="Group Name"
                 className="w-100"
                 maxLength="20"
+                onChange={(e) => setNewGroupName(e.target.value)}
               />
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="primary" onClick={saveGroup}>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  saveGroup();
+                  setNewGroupName("");
+                }}
+                disabled={newGroupName === ""}
+              >
                 Save
               </Button>
-              <Button variant="secondary" onClick={handleClose}>
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  handleClose();
+                  setNewGroupName("");
+                }}
+              >
                 Close
               </Button>
             </Modal.Footer>
@@ -133,7 +180,7 @@ const Groups = () => {
           </Button>
           <Modal
             show={showModalDel}
-            // onHide={handleClose}
+            onHide={handleClose}
             backdrop="static"
             keyboard={false}
           >
@@ -149,7 +196,10 @@ const Groups = () => {
               <Button
                 variant="danger"
                 className="me-2"
-                onClick={() => (deleteGroup(), handleCloseDel())}
+                onClick={() => {
+                  deleteGroup();
+                  handleCloseDel();
+                }}
               >
                 Delete
               </Button>

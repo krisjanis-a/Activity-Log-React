@@ -24,6 +24,7 @@ const Creator = () => {
   const [commentary, setCommentary] = useState("");
   const [group, setGroup] = useState("");
   const [errorMessage, setErrorMessage] = useState();
+  const [newGroupName, setNewGroupName] = useState("");
 
   const [savedGroups, setSavedGroups] = useState([]);
 
@@ -31,9 +32,8 @@ const Creator = () => {
 
   useEffect(() => {
     const getGroups = async () => {
-      const res = await axios.get("/groups");
-      const userGroups = res.data.filter((item) => item.userId === user._id);
-      setSavedGroups(userGroups);
+      const res = await axios.get(`/groups/${user._id}`);
+      setSavedGroups(res.data);
     };
     getGroups();
   }, [group, user._id]);
@@ -138,7 +138,7 @@ const Creator = () => {
       console.log(activity);
 
       try {
-        const res = await axios.post("/activities", activity);
+        await axios.post("/activities", activity);
         window.location.replace("/");
       } catch (err) {
         console.log(err);
@@ -288,7 +288,10 @@ const Creator = () => {
               id="dropdown-basic"
             ></Dropdown.Toggle>
 
-            <Dropdown.Menu align="end">
+            <Dropdown.Menu
+              align="end"
+              style={{ maxHeight: "20vh", overflowY: "scroll" }}
+            >
               <Dropdown.Item onClick={() => setGroup("")}>none</Dropdown.Item>
               {savedGroups.map((item) => (
                 <Dropdown.Item
@@ -313,7 +316,7 @@ const Creator = () => {
             backdrop="static"
             keyboard={false}
           >
-            <Modal.Header closeButton>
+            <Modal.Header>
               <Modal.Title className="text-body">Enter Group Name</Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -323,13 +326,27 @@ const Creator = () => {
                 placeholder="Group Name"
                 className="w-100"
                 maxLength="20"
+                onChange={(e) => setNewGroupName(e.target.value)}
               />
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="primary" onClick={saveGroup}>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  saveGroup();
+                  setNewGroupName("");
+                }}
+                disabled={newGroupName === ""}
+              >
                 Save
               </Button>
-              <Button variant="secondary" onClick={handleClose}>
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  handleClose();
+                  setNewGroupName("");
+                }}
+              >
                 Close
               </Button>
             </Modal.Footer>

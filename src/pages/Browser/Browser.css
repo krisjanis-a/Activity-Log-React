@@ -28,16 +28,3 @@
 .react-datepicker__close-icon {
   position: relative;
 }
-
-.table_body {
-  height: 12rem;
-}
-
-.table_row {
-  height: 2rem;
-}
-
-.ativity_view_delete_buttons {
-  display: flex;
-  justify-content: center;
-}
