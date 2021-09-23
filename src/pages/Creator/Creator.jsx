@@ -102,13 +102,17 @@ const Creator = () => {
       try {
         let newGroup = { name: newGroupName, userId: user._id };
         await axios.post("/Groups", newGroup);
+        setGroup(newGroupName);
       } catch (err) {}
     } else {
       setErrorMessage("Group already exists");
     }
     handleClose();
-    setGroup(newGroupName);
   };
+
+  useEffect(() => {
+    setErrorMessage();
+  }, [group]);
 
   // Save activity
 
