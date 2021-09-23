@@ -135,7 +135,7 @@ const Creator = () => {
         commentary: commentary,
         group: group,
       };
-      console.log(activity);
+      // console.log(activity);
 
       try {
         await axios.post("/activities", activity);
