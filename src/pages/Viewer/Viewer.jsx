@@ -129,277 +129,313 @@ const Viewer = () => {
   return (
     <div>
       <Header pageTitle={pageTitle} />
+      <div className="viewer_wrapper">
+        <div className="viewer_container">
+          {editMode ? (
+            <div
+              className="my-3 w-100"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              <span
+                id="activity_name_label"
+                className="fw-bold"
+                style={{ whiteSpace: "nowrap" }}
+              >
+                Activity name:
+              </span>
+              <input
+                id="activity-name"
+                className="activity_name_input ms-2"
+                value={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+              />
+            </div>
+          ) : (
+            <div className="my-3">
+              <span className="fw-bold">Activity name:</span>
+              <span className="data_field ms-2" id="activity_name">
+                {name}
+              </span>
+            </div>
+          )}
 
-      {editMode ? (
-        <div
-          className="my-3 w-100"
-          style={{ display: "flex", alignItems: "center" }}
-        >
-          <span
-            id="activity_name_label"
-            className="fw-bold"
-            style={{ whiteSpace: "nowrap" }}
-          >
-            Activity name:
-          </span>
-          <input
-            id="activity-name"
-            className="ms-2 w-100"
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
-          />
-        </div>
-      ) : (
-        <div className="my-3">
-          <span className="fw-bold">Activity name:</span>
-          <span className="data_field ms-2" id="activity_name">
-            {name}
-          </span>
-        </div>
-      )}
+          {editMode ? (
+            <div
+              className="my-3"
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              <span className="fw-bold">Group:</span>
+              <Dropdown
+                className="filter_group_dropdown ms-2"
+                style={{ width: "min(100% , 300px)" }}
+              >
+                <span className="chosen_group">{group ? group : "none"}</span>
+                <Dropdown.Toggle
+                  variant="primary"
+                  id="dropdown-basic"
+                ></Dropdown.Toggle>
 
-      {editMode ? (
-        <div className="my-3" style={{ display: "flex", alignItems: "center" }}>
-          <span className="fw-bold">Group:</span>
-          <Dropdown className="filter_group_dropdown w-100 ms-2">
-            <span className="chosen_group">{group ? group : "none"}</span>
-            <Dropdown.Toggle
-              variant="primary"
-              id="dropdown-basic"
-            ></Dropdown.Toggle>
-
-            <Dropdown.Menu align="end">
-              <Dropdown.Item onClick={() => setGroup("")}>none</Dropdown.Item>
-              {savedGroups.map((item) => (
-                <Dropdown.Item
-                  key={item.name}
-                  onClick={() => setGroup(item.name)}
+                <Dropdown.Menu
+                  align="end"
+                  style={{
+                    width: "min(100% , 300px)",
+                    maxHeight: "min(40vh, 12rem)",
+                    overflowY: "scroll",
+                  }}
                 >
-                  {item.name}
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
-      ) : (
-        <div className="my-3">
-          <span className="fw-bold">Group:</span>
-          <span className="data_field ms-2" id="group">
-            {group ? group : "none"}
-          </span>
-        </div>
-      )}
+                  <Dropdown.Item onClick={() => setGroup("")}>
+                    none
+                  </Dropdown.Item>
+                  {savedGroups.map((item) => (
+                    <Dropdown.Item
+                      key={item.name}
+                      onClick={() => setGroup(item.name)}
+                    >
+                      {item.name}
+                    </Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
+          ) : (
+            <div className="my-3">
+              <span className="fw-bold">Group:</span>
+              <span className="data_field ms-2" id="group">
+                {group ? group : "none"}
+              </span>
+            </div>
+          )}
 
-      {editMode ? (
-        <div className="my-3" style={{ display: "flex", alignItems: "center" }}>
-          <span className="fw-bold">Date:</span>
-          <span className="data_field ms-2" id="date">
-            {date}
-          </span>
-          <Button className="ms-2" onClick={handleShowDate}>
-            Edit
-          </Button>
-        </div>
-      ) : (
-        <div className="my-3">
-          <span className="fw-bold">Date:</span>
-          <span className="data_field ms-2" id="date">
-            {date}
-          </span>
-        </div>
-      )}
-
-      {editMode ? (
-        <div className="my-3">
-          <span className="fw-bold">Duration:</span>
-          <input
-            id="activity-name"
-            className="ms-2"
-            maxLength="8"
-            value={duration}
-            onChange={(e) => {
-              setDuration(e.target.value);
-            }}
-          />
-        </div>
-      ) : (
-        <div className="my-3">
-          <span className="fw-bold">Duration:</span>
-          <span className="data_field ms-2" id="duration">
-            {duration}
-          </span>
-        </div>
-      )}
-
-      <hr></hr>
-
-      <h5>Commentary</h5>
-
-      {editMode ? (
-        <textarea
-          className="commentary_display w-100"
-          id="commentary_text"
-          readOnly={false}
-          value={commentary}
-          onChange={(e) => {
-            setCommentary(e.target.value);
-          }}
-        ></textarea>
-      ) : (
-        <textarea
-          className="commentary_display w-100"
-          readOnly={true}
-          value={commentary !== "" ? commentary : "No comments to display..."}
-        ></textarea>
-      )}
-
-      <div className="viewer_buttons">
-        {editMode ? (
-          <div>
-            <Button
-              variant="primary"
-              className="me-1"
-              onClick={() => {
-                saveChanges();
-              }}
+          {editMode ? (
+            <div
+              className="my-3"
+              style={{ display: "flex", alignItems: "center" }}
             >
-              Save
-            </Button>
+              <span className="fw-bold">Date:</span>
+              <span className="data_field ms-2" id="date">
+                {date}
+              </span>
+              <Button className="ms-2" onClick={handleShowDate}>
+                Edit
+              </Button>
+            </div>
+          ) : (
+            <div className="my-3">
+              <span className="fw-bold">Date:</span>
+              <span className="data_field ms-2" id="date">
+                {date}
+              </span>
+            </div>
+          )}
 
-            <Button
-              variant="secondary"
-              className="ms-1"
-              onClick={() => {
-                setEditMode(false);
-                setName(previousData[0]);
-                setGroup(previousData[1]);
-                setDate(previousData[2]);
-                setDuration(previousData[3]);
-                setCommentary(previousData[4]);
-                setStartDate(new Date());
-                setErrorMessage();
+          {editMode ? (
+            <div className="my-3">
+              <span className="fw-bold">Duration:</span>
+              <input
+                id="activity-name"
+                className="ms-2"
+                maxLength="8"
+                value={duration}
+                onChange={(e) => {
+                  setDuration(e.target.value);
+                }}
+              />
+            </div>
+          ) : (
+            <div className="my-3">
+              <span className="fw-bold">Duration:</span>
+              <span className="data_field ms-2" id="duration">
+                {duration}
+              </span>
+            </div>
+          )}
+
+          <hr></hr>
+
+          <h5>Commentary</h5>
+
+          {editMode ? (
+            <textarea
+              className="commentary_display w-100"
+              id="commentary_text"
+              readOnly={false}
+              value={commentary}
+              onChange={(e) => {
+                setCommentary(e.target.value);
               }}
-            >
-              Cancel
-            </Button>
+            ></textarea>
+          ) : (
+            <textarea
+              className="commentary_display w-100"
+              readOnly={true}
+              value={
+                commentary !== "" ? commentary : "No comments to display..."
+              }
+            ></textarea>
+          )}
+
+          <div className="viewer_buttons">
+            {editMode ? (
+              <div>
+                <Button
+                  variant="primary"
+                  className="me-1"
+                  onClick={() => {
+                    saveChanges();
+                  }}
+                >
+                  Save
+                </Button>
+
+                <Button
+                  variant="secondary"
+                  className="ms-1"
+                  onClick={() => {
+                    setEditMode(false);
+                    setName(previousData[0]);
+                    setGroup(previousData[1]);
+                    setDate(previousData[2]);
+                    setDuration(previousData[3]);
+                    setCommentary(previousData[4]);
+                    setStartDate(new Date());
+                    setErrorMessage();
+                  }}
+                >
+                  Cancel
+                </Button>
+              </div>
+            ) : (
+              <>
+                <Button
+                  variant="primary"
+                  className="me-1"
+                  onClick={() => {
+                    setEditMode(true);
+                    setPreviousData([name, group, date, duration, commentary]);
+                  }}
+                >
+                  Edit
+                </Button>
+
+                <Button
+                  variant="danger"
+                  className="ms-1"
+                  onClick={handleShowDel}
+                >
+                  Delete
+                </Button>
+              </>
+            )}
           </div>
-        ) : (
-          <>
-            <Button
-              variant="primary"
-              className="me-1"
-              onClick={() => {
-                setEditMode(true);
-                setPreviousData([name, group, date, duration, commentary]);
+          <p
+            className="mt-2 w-100"
+            style={{
+              color: "red",
+              textAlign: "center",
+            }}
+          >
+            {errorMessage}
+          </p>
+          <p
+            className="mt-2 w-100 fw-bold"
+            style={{
+              color: "green",
+              textAlign: "center",
+            }}
+          >
+            {successMessage}
+          </p>
+          <Modal
+            show={showModalDel}
+            onHide={handleCloseDel}
+            backdrop="static"
+            keyboard={false}
+          >
+            <Modal.Header style={{ display: "flex", justifyContent: "center" }}>
+              <Modal.Title className="text-body">
+                Confirm delete activity
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body
+              className="w-100"
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              <Button
+                variant="danger"
+                className="me-2"
+                onClick={() => {
+                  deleteActivity();
+                  handleCloseDel();
+                }}
+              >
+                Delete
+              </Button>
+              <Button
+                variant="secondary"
+                className="ms-2"
+                onClick={handleCloseDel}
+              >
+                Cancel
+              </Button>
+            </Modal.Body>
+          </Modal>
+          <Modal
+            show={showModalDate}
+            onHide={handleCloseDate}
+            backdrop="static"
+            keyboard={false}
+            centered={true}
+          >
+            <Modal.Body
+              className=""
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginLeft: "auto",
+                marginRight: "auto",
               }}
             >
-              Edit
-            </Button>
-
-            <Button variant="danger" className="ms-1" onClick={handleShowDel}>
-              Delete
-            </Button>
-          </>
-        )}
+              <p
+                className=" mb-0 me-2 text-body"
+                style={{ whiteSpace: "nowrap" }}
+              >
+                Select date:
+              </p>
+              <DatePicker
+                isClearable
+                placeholderText="none selected"
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+              />
+            </Modal.Body>
+            <Modal.Footer
+              className="w-100"
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              <Button
+                variant="primary"
+                className="me-2"
+                disabled={!startDate}
+                onClick={() => {
+                  handleCloseDate();
+                  setDate(startDate.toDateString());
+                }}
+              >
+                Accept
+              </Button>
+              <Button
+                variant="secondary"
+                className="ms-2"
+                onClick={handleCloseDate}
+              >
+                Cancel
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
       </div>
-      <p
-        className="mt-2 w-100"
-        style={{
-          color: "red",
-          textAlign: "center",
-        }}
-      >
-        {errorMessage}
-      </p>
-      <p
-        className="mt-2 w-100 fw-bold"
-        style={{
-          color: "green",
-          textAlign: "center",
-        }}
-      >
-        {successMessage}
-      </p>
-      <Modal
-        show={showModalDel}
-        onHide={handleCloseDel}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Header style={{ display: "flex", justifyContent: "center" }}>
-          <Modal.Title className="text-body">Confirm delete group</Modal.Title>
-        </Modal.Header>
-        <Modal.Body
-          className="w-100"
-          style={{ display: "flex", justifyContent: "center" }}
-        >
-          <Button
-            variant="danger"
-            className="me-2"
-            onClick={() => {
-              deleteActivity();
-              handleCloseDel();
-            }}
-          >
-            Delete
-          </Button>
-          <Button variant="secondary" className="ms-2" onClick={handleCloseDel}>
-            Cancel
-          </Button>
-        </Modal.Body>
-      </Modal>
-      <Modal
-        show={showModalDate}
-        onHide={handleCloseDate}
-        backdrop="static"
-        keyboard={false}
-        centered={true}
-      >
-        <Modal.Body
-          className=""
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginLeft: "auto",
-            marginRight: "auto",
-          }}
-        >
-          <p className=" mb-0 me-2 text-body" style={{ whiteSpace: "nowrap" }}>
-            Select date:
-          </p>
-          <DatePicker
-            isClearable
-            placeholderText="none selected"
-            selected={startDate}
-            onChange={(date) => setStartDate(date)}
-          />
-        </Modal.Body>
-        <Modal.Footer
-          className="w-100"
-          style={{ display: "flex", justifyContent: "center" }}
-        >
-          <Button
-            variant="primary"
-            className="me-2"
-            disabled={!startDate}
-            onClick={() => {
-              handleCloseDate();
-              setDate(startDate.toDateString());
-            }}
-          >
-            Accept
-          </Button>
-          <Button
-            variant="secondary"
-            className="ms-2"
-            onClick={handleCloseDate}
-          >
-            Cancel
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </div>
   );
 };

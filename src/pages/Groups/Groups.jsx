@@ -5,6 +5,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { Context } from "../../context/Context";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
+import "./Groups.css";
 
 const Groups = () => {
   const pageTitle = "Groups";
@@ -57,7 +58,6 @@ const Groups = () => {
       setErrorMessage("Group already exists");
     }
     handleClose();
-    setGroup(newGroupName);
   };
 
   // Delete group
@@ -101,128 +101,138 @@ const Groups = () => {
   return (
     <div>
       <Header pageTitle={pageTitle} />
-      <div className="choose-group_container">
-        <span className="choose-group_label">Choose group:</span>
-        <Dropdown className="filter_group_dropdown w-100">
-          <span className="chosen_group">{group ? group : "none"}</span>
-          <Dropdown.Toggle
-            variant="primary"
-            id="dropdown-basic"
-          ></Dropdown.Toggle>
+      <div className="groups_container">
+        <div className="choose-group_container">
+          <span className="choose-group_label mb-2">Choose group:</span>
+          <Dropdown className="filter_group_dropdown w-100">
+            <span className="chosen_group w-100">{group ? group : "none"}</span>
+            <Dropdown.Toggle
+              variant="primary"
+              id="dropdown-basic"
+            ></Dropdown.Toggle>
 
-          <Dropdown.Menu align="end">
-            <Dropdown.Item onClick={() => setGroup("")}>none</Dropdown.Item>
-            {savedGroups.map((item) => (
-              <Dropdown.Item
-                key={item.name}
-                onClick={() => setGroup(item.name)}
-              >
-                {item.name}
-              </Dropdown.Item>
-            ))}
-          </Dropdown.Menu>
-        </Dropdown>
-      </div>
-
-      <div className="buttons_container">
-        <div className="create_delete_group my-3">
-          <Button variant="primary" className="me-2" onClick={handleShow}>
-            Create group
-          </Button>
-          <Modal
-            show={showModal}
-            onHide={handleClose}
-            backdrop="static"
-            keyboard={false}
-          >
-            <Modal.Header>
-              <Modal.Title className="text-body">Enter Group Name</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <input
-                type="text"
-                id="new_group"
-                placeholder="Group Name"
-                className="w-100"
-                maxLength="20"
-                onChange={(e) => setNewGroupName(e.target.value)}
-              />
-            </Modal.Body>
-            <Modal.Footer>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  saveGroup();
-                  setNewGroupName("");
-                }}
-                disabled={newGroupName === ""}
-              >
-                Save
-              </Button>
-              <Button
-                variant="secondary"
-                onClick={() => {
-                  handleClose();
-                  setNewGroupName("");
-                }}
-              >
-                Close
-              </Button>
-            </Modal.Footer>
-          </Modal>
-          <Button
-            variant="danger"
-            className="ms-2"
-            disabled={group === ""}
-            onClick={handleShowDel}
-          >
-            Delete group
-          </Button>
-          <Modal
-            show={showModalDel}
-            onHide={handleClose}
-            backdrop="static"
-            keyboard={false}
-          >
-            <Modal.Header style={{ display: "flex", justifyContent: "center" }}>
-              <Modal.Title className="text-body">
-                Confirm delete group
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body
+            <Dropdown.Menu
               className="w-100"
-              style={{ display: "flex", justifyContent: "center" }}
+              align="end"
+              style={{ maxHeight: "40vh", overflowY: "scroll" }}
             >
-              <Button
-                variant="danger"
-                className="me-2"
-                onClick={() => {
-                  deleteGroup();
-                  handleCloseDel();
-                }}
-              >
-                Delete
-              </Button>
-              <Button
-                variant="secondary"
-                className="ms-2"
-                onClick={handleCloseDel}
-              >
-                Cancel
-              </Button>
-            </Modal.Body>
-          </Modal>
+              <Dropdown.Item onClick={() => setGroup("")}>none</Dropdown.Item>
+              {savedGroups.map((item) => (
+                <Dropdown.Item
+                  key={item.name}
+                  onClick={() => setGroup(item.name)}
+                >
+                  {item.name}
+                </Dropdown.Item>
+              ))}
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
+
+        <div className="buttons_container">
+          <div className="create_delete_group my-3">
+            <Button variant="primary" className="me-2" onClick={handleShow}>
+              Create group
+            </Button>
+            <Modal
+              show={showModal}
+              onHide={handleClose}
+              backdrop="static"
+              keyboard={false}
+            >
+              <Modal.Header>
+                <Modal.Title className="text-body">
+                  Enter Group Name
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <input
+                  type="text"
+                  id="new_group"
+                  placeholder="Group Name"
+                  className="w-100"
+                  maxLength="20"
+                  onChange={(e) => setNewGroupName(e.target.value)}
+                />
+              </Modal.Body>
+              <Modal.Footer>
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    saveGroup();
+                    setNewGroupName("");
+                  }}
+                  disabled={newGroupName === ""}
+                >
+                  Save
+                </Button>
+                <Button
+                  variant="secondary"
+                  onClick={() => {
+                    handleClose();
+                    setNewGroupName("");
+                  }}
+                >
+                  Close
+                </Button>
+              </Modal.Footer>
+            </Modal>
+            <Button
+              variant="danger"
+              className="ms-2"
+              disabled={group === ""}
+              onClick={handleShowDel}
+            >
+              Delete group
+            </Button>
+            <Modal
+              show={showModalDel}
+              onHide={handleClose}
+              backdrop="static"
+              keyboard={false}
+            >
+              <Modal.Header
+                style={{ display: "flex", justifyContent: "center" }}
+              >
+                <Modal.Title className="text-body">
+                  Confirm delete group
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body
+                className="w-100"
+                style={{ display: "flex", justifyContent: "center" }}
+              >
+                <Button
+                  variant="danger"
+                  className="me-2"
+                  onClick={() => {
+                    deleteGroup();
+                    handleCloseDel();
+                  }}
+                >
+                  Delete
+                </Button>
+                <Button
+                  variant="secondary"
+                  className="ms-2"
+                  onClick={handleCloseDel}
+                >
+                  Cancel
+                </Button>
+              </Modal.Body>
+            </Modal>
+          </div>
+        </div>
+        <p
+          className="mt-2 w-100"
+          style={{
+            color: "red",
+            textAlign: "center",
+          }}
+        >
+          {errorMessage}
+        </p>
       </div>
-      <p
-        className="mt-2 w-100"
-        style={{
-          color: "red",
-          textAlign: "center",
-        }}
-      >
-        {errorMessage}
-      </p>
     </div>
   );
 };

@@ -161,207 +161,227 @@ const Creator = () => {
   };
 
   return (
-    <div>
+    <div className="creator">
       <Header pageTitle={pageTitle} />
 
-      <div className="timer_control_container my-3">
-        <div className="activity_duration mb-2">
-          Activity duration: {activityDurationString}
-        </div>
-        <div className="timer_control_buttons">
-          {!runTimer && activityDurationAutomatic === 0 ? (
-            <Button
-              variant="primary"
-              className="me-1"
-              onClick={() => setRunTimer(true)}
-            >
-              Start
-            </Button>
-          ) : runTimer ? (
-            <Button
-              variant="primary"
-              className="me-1"
-              onClick={() => setRunTimer(false)}
-            >
-              Stop
-            </Button>
-          ) : (
-            <>
-              <Button
-                variant="primary"
-                className="me-1"
-                onClick={() => setRunTimer(true)}
-              >
-                Resume
-              </Button>
-              <Button
-                variant="primary"
-                className="ms-1"
-                onClick={() => {
-                  setRunTimer(false);
-                  setActivityDurationAutomatic(0);
-                }}
-              >
-                Reset
-              </Button>
-            </>
-          )}
-        </div>
-      </div>
-
-      <div className="manual_duration_container">
-        <div className="duration_entry_container my-3">
-          <label
-            htmlFor="duration_entry_field"
-            className="duration_entry_label me-1"
-          >
-            Enter duration manually:
-          </label>
-
-          <div className="duration_entry_field_container">
-            <input
-              type="text"
-              name="duration"
-              id="duration_entry_field"
-              maxLength="8"
-              rows="1"
-              onChange={(e) => setActivityDurationManual(e.target.value)}
-            ></input>
+      <div className="creator_wrapper">
+        <div className="creator_container">
+          <div className="timer_control_container my-3">
+            <div className="activity_duration mb-2">
+              Activity duration: {activityDurationString}
+            </div>
+            <div className="timer_control_buttons">
+              {!runTimer && activityDurationAutomatic === 0 ? (
+                <Button
+                  variant="primary"
+                  className="me-1"
+                  onClick={() => setRunTimer(true)}
+                >
+                  Start
+                </Button>
+              ) : runTimer ? (
+                <Button
+                  variant="primary"
+                  className="me-1"
+                  onClick={() => setRunTimer(false)}
+                >
+                  Stop
+                </Button>
+              ) : (
+                <>
+                  <Button
+                    variant="primary"
+                    className="me-1"
+                    onClick={() => setRunTimer(true)}
+                  >
+                    Resume
+                  </Button>
+                  <Button
+                    variant="primary"
+                    className="ms-1"
+                    onClick={() => {
+                      setRunTimer(false);
+                      setActivityDurationAutomatic(0);
+                    }}
+                  >
+                    Reset
+                  </Button>
+                </>
+              )}
+            </div>
           </div>
-        </div>
+          <div className="creator_setup">
+            <div className="manual_duration_container">
+              <div className="duration_entry_container my-3">
+                <label
+                  htmlFor="duration_entry_field"
+                  className="duration_entry_label me-1"
+                  style={{ textAlign: "center" }}
+                >
+                  Enter duration manually:
+                </label>
 
-        <div className="duration_checkbox_container">
-          <input
-            className="me-1"
-            id="duration_checkbox"
-            type="checkbox"
-            onClick={(e) => setUseManualDuration(e.target.checked)}
-          />
-          <label htmlFor="duration_checkbox">
-            - use manually entered value
-          </label>
-        </div>
-      </div>
+                <div className="duration_entry_field_container">
+                  <input
+                    type="text"
+                    name="duration"
+                    id="duration_entry_field"
+                    maxLength="8"
+                    rows="1"
+                    onChange={(e) => setActivityDurationManual(e.target.value)}
+                  ></input>
+                </div>
+              </div>
 
-      <div className="activity_setup_container">
-        <div className="date_name_container">
-          <div className="name_container my-3">
-            <label htmlFor="name_field" className="name_label me-2">
-              Activity name:
-            </label>
+              <div className="duration_checkbox_container">
+                <input
+                  className="me-1"
+                  id="duration_checkbox"
+                  type="checkbox"
+                  onClick={(e) => setUseManualDuration(e.target.checked)}
+                />
+                <label htmlFor="duration_checkbox">
+                  - use manually entered value
+                </label>
+              </div>
+            </div>
 
-            <div className="name_field_container">
-              <input
-                type="text"
-                name="activity_name"
-                id="name_field"
-                rows="1"
-                onChange={(e) => setActivityName(e.target.value)}
-              ></input>
+            <div className="date_name_container">
+              <div className="name_container my-3">
+                <label htmlFor="name_field" className="name_label me-2">
+                  Activity name:
+                </label>
+
+                <div className="name_field_container">
+                  <input
+                    type="text"
+                    name="activity_name"
+                    id="name_field"
+                    rows="1"
+                    onChange={(e) => setActivityName(e.target.value)}
+                  ></input>
+                </div>
+              </div>
+
+              <div className="choose-date_container creator">
+                <div className="date_label me-2">Date:</div>
+                <DatePicker
+                  isClearable
+                  placeholderText="none selected"
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                />
+              </div>
             </div>
           </div>
 
-          <div className="choose-date_container">
-            <div className="date_label me-2">Date:</div>
-            <DatePicker
-              isClearable
-              placeholderText="none selected"
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-            />
+          <div className="commentary_container mt-2">
+            <h5>Commentary</h5>
+            <textarea
+              className="commentary_display w-100"
+              resize="none"
+              id="commentary_text"
+              placeholder="Enter comments ..."
+              onChange={(e) => setCommentary(e.target.value)}
+            ></textarea>
+          </div>
+
+          <div className="choose-group_container">
+            <span className="choose-group_label">Choose group:</span>
+            <Dropdown className="filter_group_dropdown w-100">
+              <span className="chosen_group creator">
+                {group ? group : "none"}
+              </span>
+              <Dropdown.Toggle
+                variant="primary"
+                id="dropdown-basic"
+              ></Dropdown.Toggle>
+
+              <Dropdown.Menu
+                align="end"
+                style={{
+                  maxHeight: "40vh",
+                  overflowY: "scroll",
+                  width: "100%",
+                }}
+              >
+                <Dropdown.Item onClick={() => setGroup("")}>none</Dropdown.Item>
+                {savedGroups.map((item) => (
+                  <Dropdown.Item
+                    key={item.name}
+                    onClick={() => setGroup(item.name)}
+                  >
+                    {item.name}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+
+          <div className="buttons_container">
+            <div className="create_group my-3">
+              <Button variant="primary" className="" onClick={handleShow}>
+                Create group
+              </Button>
+              <Modal
+                show={showModal}
+                onHide={handleClose}
+                backdrop="static"
+                keyboard={false}
+              >
+                <Modal.Header>
+                  <Modal.Title className="text-body">
+                    Enter Group Name
+                  </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <input
+                    type="text"
+                    id="new_group"
+                    placeholder="Group Name"
+                    className="w-100"
+                    maxLength="20"
+                    onChange={(e) => setNewGroupName(e.target.value)}
+                  />
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button
+                    variant="primary"
+                    onClick={() => {
+                      saveGroup();
+                      setNewGroupName("");
+                    }}
+                    disabled={newGroupName === ""}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    onClick={() => {
+                      handleClose();
+                      setNewGroupName("");
+                    }}
+                  >
+                    Close
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+            </div>
+            <Button
+              variant="secondary"
+              className="save_activity_button"
+              onClick={saveActivity}
+            >
+              Save activity
+            </Button>
+            <span
+              className="mt-2 "
+              style={{ color: "red", textAlign: "center" }}
+            >
+              {errorMessage}
+            </span>
           </div>
         </div>
-
-        <div className="commentary_container mt-2">
-          <h5>Commentary</h5>
-          <textarea
-            className="commentary_display w-100"
-            resize="none"
-            id="commentary_text"
-            placeholder="Enter comments ..."
-            onChange={(e) => setCommentary(e.target.value)}
-          ></textarea>
-        </div>
-
-        <div className="choose-group_container">
-          <span className="choose-group_label">Choose group:</span>
-          <Dropdown className="filter_group_dropdown w-100">
-            <span className="chosen_group">{group ? group : "none"}</span>
-            <Dropdown.Toggle
-              variant="primary"
-              id="dropdown-basic"
-            ></Dropdown.Toggle>
-
-            <Dropdown.Menu
-              align="end"
-              style={{ maxHeight: "20vh", overflowY: "scroll" }}
-            >
-              <Dropdown.Item onClick={() => setGroup("")}>none</Dropdown.Item>
-              {savedGroups.map((item) => (
-                <Dropdown.Item
-                  key={item.name}
-                  onClick={() => setGroup(item.name)}
-                >
-                  {item.name}
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
-      </div>
-      <div className="buttons_container">
-        <div className="create_group my-3">
-          <Button variant="primary" className="me-2" onClick={handleShow}>
-            Create group
-          </Button>
-          <Modal
-            show={showModal}
-            onHide={handleClose}
-            backdrop="static"
-            keyboard={false}
-          >
-            <Modal.Header>
-              <Modal.Title className="text-body">Enter Group Name</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <input
-                type="text"
-                id="new_group"
-                placeholder="Group Name"
-                className="w-100"
-                maxLength="20"
-                onChange={(e) => setNewGroupName(e.target.value)}
-              />
-            </Modal.Body>
-            <Modal.Footer>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  saveGroup();
-                  setNewGroupName("");
-                }}
-                disabled={newGroupName === ""}
-              >
-                Save
-              </Button>
-              <Button
-                variant="secondary"
-                onClick={() => {
-                  handleClose();
-                  setNewGroupName("");
-                }}
-              >
-                Close
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        </div>
-        <Button variant="success" className="w-50" onClick={saveActivity}>
-          Save activity
-        </Button>
-        <span className="mt-2 " style={{ color: "red" }}>
-          {errorMessage}
-        </span>
       </div>
     </div>
   );

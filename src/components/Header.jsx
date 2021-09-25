@@ -6,8 +6,6 @@ import { Link } from "react-router-dom";
 const Header = ({ pageTitle }) => {
   return (
     <div className="header">
-      <div className="main_header_line"></div>
-
       <div className="header_content">
         <h1 className="me-5">{pageTitle}</h1>
 
@@ -25,8 +23,6 @@ const Header = ({ pageTitle }) => {
           </Link>
         )}
       </div>
-
-      <div className="main_header_line"></div>
     </div>
   );
 };

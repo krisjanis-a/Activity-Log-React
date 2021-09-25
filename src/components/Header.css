@@ -1,3 +1,9 @@
+.header {
+  background-color: rgb(30, 30, 30);
+  padding: 1rem;
+  width: 100%;
+}
+
 .header_content {
   width: 100%;
   display: flex;

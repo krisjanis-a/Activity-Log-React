@@ -1,8 +1,48 @@
+.creator_wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.creator_container {
+  width: min(90%, 800px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.creator_setup {
+  width: 100%;
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-evenly;
+  border-bottom: 1px solid #333;
+}
+
+.manual_duration_container,
+.date_name_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .timer_control_container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+
+  width: fit-content;
+
+  background-color: #2229;
+  box-shadow: 0 0 5px #eee;
+  border: 0.15rem solid #fff9;
+  padding: 2rem 3rem;
+  border-radius: 2rem;
 }
 
 .timer_control_buttons {
@@ -27,6 +67,14 @@
   text-align: center;
 }
 
+.choose-date_container.creator {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+}
+
 .react-datepicker__close-icon {
   position: relative;
   margin-left: 0.5rem;
@@ -43,6 +91,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-bottom: 1rem;
 }
 
 .create_group {
@@ -53,12 +102,49 @@
 }
 
 .choose-group_container {
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
 }
 
+.creator.chosen_group {
+  width: 100%;
+}
+
+.commentary_container {
+  width: 90%;
+}
 .commentary_display {
   resize: none;
+  border-radius: 1rem;
+  outline: none;
+}
+
+@media screen and (max-width: 700px) {
+  .creator_setup {
+    padding: 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border-bottom: 1px solid #333;
+  }
+
+  .manual_duration_container,
+  .date_name_container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 1rem 0;
+  }
+
+  .date_name_container {
+    border-top: 1px solid #333;
+  }
+
+  .creator_setup {
+    width: 90%;
+  }
 }

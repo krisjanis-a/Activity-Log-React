@@ -1,15 +1,33 @@
 .home {
-  margin-top: 10%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.home_contents {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  z-index: 10;
+
+  background-color: #2229;
+  box-shadow: 0 0 5px #eee;
+  border: 0.15rem solid #fff9;
+  padding: 2rem;
+  border-radius: 2rem;
+  width: min(95%, 24rem);
+  aspect-ratio: 1/1;
 }
 
 .home_buttons {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 1rem;
 }
 
 .home_buttons_login {
@@ -17,4 +35,102 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.background_image_container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  height: max(100%, 100vh);
+  width: 100%;
+  filter: brightness(50%);
+}
+
+.background_image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.home_icon {
+  color: #aaa;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.home_icon:hover {
+  color: #ccc;
+}
+
+.settings_icon {
+  position: absolute;
+  bottom: 3%;
+  right: 40%;
+}
+
+.info_icon {
+  position: absolute;
+  bottom: 3%;
+  left: 40%;
+}
+
+.info_container {
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  z-index: 10;
+
+  background-color: #222f;
+  box-shadow: 0 0 5px #eee;
+  border: 0.15rem solid #fff9;
+  padding: 2rem;
+  border-radius: 2rem;
+
+  overflow-y: scroll;
+}
+
+.info_container p {
+  text-align: justify;
+}
+
+.info_container::-webkit-scrollbar {
+  display: none;
+}
+
+.username_container {
+  margin-bottom: 0.5rem;
+  background-color: #2225;
+  border: 0.15rem solid #fff9;
+  padding: 0.35rem;
+  border-radius: 1rem;
+}
+
+@media screen and (max-width: 500px) {
+  .home_contents {
+    padding: 1rem;
+  }
+
+  .home_buttons {
+    margin: 1rem 0;
+  }
+
+  .home_icon {
+    font-size: 1.5rem;
+  }
+
+  .settings_icon {
+    bottom: 10%;
+    right: 10%;
+  }
+
+  .info_icon {
+    bottom: 10%;
+    left: 10%;
+  }
 }

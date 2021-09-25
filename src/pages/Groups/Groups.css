@@ -1,0 +1,12 @@
+.groups_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.choose-group_container {
+  margin: 1rem;
+  width: min(500px, 90%);
+}

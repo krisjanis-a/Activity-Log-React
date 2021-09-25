@@ -101,123 +101,129 @@ const Browser = () => {
     <div>
       <Header pageTitle={pageTitle} />
 
-      <div className="controls_container">
-        <div className="control_module my-1" id="control_module_1">
-          <div className="choose-date_container">
-            <span className="date_label me-1">Choose date:</span>
-            <DatePicker
-              isClearable
-              placeholderText="none selected"
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-            />
+      <div className="browser_container">
+        <div className="controls_container">
+          <div className="control_module my-3" id="control_module_1">
+            <div className="choose-date_container">
+              <span className="date_label me-1 mb-1">Choose date:</span>
+              <DatePicker
+                isClearable
+                placeholderText="none selected"
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+              />
+            </div>
+          </div>
+
+          <div className="control_module my-3 mb-2" id="control_module_2">
+            <div className="filter-group_label mb-1">Filter group:</div>
+            <Dropdown className="filter_group_dropdown w-100">
+              <span className="chosen_group">{group ? group : "none"}</span>
+              <Dropdown.Toggle
+                variant="primary"
+                id="dropdown-basic"
+              ></Dropdown.Toggle>
+
+              <Dropdown.Menu
+                align="end"
+                style={{
+                  width: "min(400px , 100%)",
+                  maxHeight: "min(40vh, 12rem)",
+                  overflowY: "scroll",
+                }}
+              >
+                <Dropdown.Item onClick={() => setGroup("")}>none</Dropdown.Item>
+                {groups.map((item) => (
+                  <Dropdown.Item
+                    key={item.name}
+                    onClick={() => setGroup(item.name)}
+                  >
+                    {item.name}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
         </div>
 
-        <div className="control_module my-1 mb-2" id="control_module_2">
-          <div className="filter-group_label">Filter group:</div>
-          <Dropdown className="filter_group_dropdown w-100">
-            <span className="chosen_group">{group ? group : "none"}</span>
-            <Dropdown.Toggle
-              variant="primary"
-              id="dropdown-basic"
-            ></Dropdown.Toggle>
-
-            <Dropdown.Menu
-              align="end"
-              style={{ maxHeight: "20vh", overflowY: "scroll" }}
-            >
-              <Dropdown.Item onClick={() => setGroup("")}>none</Dropdown.Item>
-              {groups.map((item) => (
-                <Dropdown.Item
-                  key={item.name}
-                  onClick={() => setGroup(item.name)}
-                >
-                  {item.name}
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
-      </div>
-
-      <Table variant="dark" bordered hover>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Date</th>
-            <th>Group</th>
-          </tr>
-        </thead>
-        <tbody className="table_body">
-          {activities.length !== 0 ? (
-            activities.map((activity) => {
-              return (
-                <tr
-                  className="table_row"
-                  key={"row" + activity._id}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    setSelectedActivity(activity);
-                    handleShow();
-                  }}
-                >
-                  <td key={activity.name}>{activity.name}</td>
-                  <td key={activity.date}>{activity.date}</td>
-                  <td key={activity.group}>
-                    {activity.group ? activity.group : "none"}
-                  </td>
+        <Table variant="dark" bordered hover>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Date</th>
+              <th>Group</th>
+            </tr>
+          </thead>
+          <tbody className="table_body">
+            {activities.length !== 0 ? (
+              activities.map((activity) => {
+                return (
+                  <tr
+                    className="table_row"
+                    key={"row" + activity._id}
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      setSelectedActivity(activity);
+                      handleShow();
+                    }}
+                  >
+                    <td key={activity.name}>{activity.name}</td>
+                    <td key={activity.date}>{activity.date}</td>
+                    <td key={activity.group}>
+                      {activity.group ? activity.group : "none"}
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <>
+                <tr className="table_row">
+                  <td>none</td>
+                  <td>none</td>
+                  <td>none</td>
                 </tr>
-              );
-            })
-          ) : (
-            <>
-              <tr className="table_row">
-                <td>none</td>
-                <td>none</td>
-                <td>none</td>
-              </tr>
-            </>
-          )}
-        </tbody>
-      </Table>
+              </>
+            )}
+          </tbody>
+        </Table>
 
-      <Modal
-        show={showModal}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title className="text-body">
-            {selectedActivity.name}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <h5 className="text-black-50">View activity details?</h5>
-        </Modal.Body>
-        <Modal.Footer>
-          <Link
-            to={
-              selectedActivity ? `/viewer/${selectedActivity._id}` : "/viewer"
-            }
-          >
-            <Button variant="primary" className="me-1">
-              Yes
+        <Modal
+          show={showModal}
+          onHide={handleClose}
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title className="text-body">
+              {selectedActivity.name}
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <h5 className="text-black-50">View activity details?</h5>
+          </Modal.Body>
+          <Modal.Footer>
+            <Link
+              to={
+                selectedActivity ? `/viewer/${selectedActivity._id}` : "/viewer"
+              }
+            >
+              <Button variant="primary" className="me-1">
+                Yes
+              </Button>
+            </Link>
+            <Button
+              variant="secondary"
+              className="ms-1"
+              onClick={() => {
+                handleClose();
+                setSelectedActivity({});
+              }}
+            >
+              No
             </Button>
-          </Link>
-          <Button
-            variant="secondary"
-            className="ms-1"
-            onClick={() => {
-              handleClose();
-              setSelectedActivity({});
-            }}
-          >
-            No
-          </Button>
-        </Modal.Footer>
-      </Modal>
+          </Modal.Footer>
+        </Modal>
+      </div>
     </div>
   );
 };

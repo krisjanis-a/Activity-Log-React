@@ -1,8 +1,24 @@
+.viewer_wrapper {
+  width: 98%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.viewer_container {
+  margin: 2rem;
+  width: min(800px, 100%);
+  display: flex;
+  flex-direction: column;
+}
+
 .commentary_display {
   height: 10rem;
+  padding: 0.5rem;
 }
 
 .viewer_buttons {
   display: flex;
   justify-content: center;
+  margin: 1rem;
 }
