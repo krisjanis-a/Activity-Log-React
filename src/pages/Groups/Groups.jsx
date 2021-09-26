@@ -29,7 +29,7 @@ const Groups = () => {
       setSavedGroups(res.data);
     };
     getGroups();
-  }, [group, user._id]);
+  }, [group, savedGroups, user._id]);
 
   // Create & Delete group modal window
 
@@ -53,6 +53,7 @@ const Groups = () => {
       try {
         let newGroup = { name: newGroupName, userId: user._id };
         await axios.post("/groups", newGroup);
+        setGroup(newGroupName);
       } catch (err) {}
     } else {
       setErrorMessage("Group already exists");

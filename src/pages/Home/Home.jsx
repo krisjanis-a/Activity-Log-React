@@ -14,19 +14,25 @@ const Home = () => {
     dispatch({ type: "LOGOUT" });
   };
 
+  const toggleInfo = React.useCallback(
+    (e) => {
+      e.stopPropagation();
+      console.log("toggling from " + showInfo);
+      setShowInfo(!showInfo);
+    },
+    [showInfo]
+  );
+
   useEffect(() => {
     if (showInfo) {
-      window.addEventListener("click", toggleInfo);
-
+      document.addEventListener("click", toggleInfo);
+      console.log("added event listener");
       return () => {
-        window.removeEventListener("click", toggleInfo);
+        document.removeEventListener("click", toggleInfo);
+        console.log("removed event listener");
       };
     }
-  }, [showInfo]);
-
-  const toggleInfo = () => {
-    setShowInfo(!showInfo);
-  };
+  }, [showInfo, toggleInfo]);
 
   return (
     <>
@@ -86,7 +92,7 @@ const Home = () => {
           )}
           <i
             className="home_icon info_icon fas fa-info-circle"
-            onClick={toggleInfo}
+            onClick={(e) => toggleInfo(e)}
             style={!user ? { left: "50%", transform: "translateX(-50%)" } : {}}
           ></i>
           {user ? (

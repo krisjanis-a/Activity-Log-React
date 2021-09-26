@@ -101,7 +101,7 @@ const Creator = () => {
     if (!existingGroups.includes(newGroupName)) {
       try {
         let newGroup = { name: newGroupName, userId: user._id };
-        await axios.post("/Groups", newGroup);
+        await axios.post("/groups", newGroup);
         setGroup(newGroupName);
       } catch (err) {}
     } else {
