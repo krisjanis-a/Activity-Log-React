@@ -17,7 +17,6 @@ const Home = () => {
   const toggleInfo = React.useCallback(
     (e) => {
       e.stopPropagation();
-      console.log("toggling from " + showInfo);
       setShowInfo(!showInfo);
     },
     [showInfo]
@@ -26,10 +25,8 @@ const Home = () => {
   useEffect(() => {
     if (showInfo) {
       document.addEventListener("click", toggleInfo);
-      console.log("added event listener");
       return () => {
         document.removeEventListener("click", toggleInfo);
-        console.log("removed event listener");
       };
     }
   }, [showInfo, toggleInfo]);
